@@ -1,0 +1,27 @@
+function [rInit,rWidth, rHeight] = random_init_position( initX, initY, ...
+                                                  width, height, ...
+                                                  DataVariation, nRandInit )
+
+mu_trans  = DataVariation.mu_trans;
+cov_trans = DataVariation.cov_trans;
+mu_scale  = DataVariation.mu_scale;
+cov_scale = DataVariation.cov_scale;
+
+rInit_trans = mvnrnd(mu_trans,cov_trans,nRandInit);
+%rInit_trans = zeros(nRandInit,2);
+
+rInit = repmat([initX initY],nRandInit,1) + ...
+                           rInit_trans.*repmat([width height],nRandInit,1);
+
+rInit_scale = mvnrnd(mu_scale,cov_scale,nRandInit);
+%rInit_scale = ones(nRandInit,2);
+
+rWidth  = zeros(nRandInit,1);
+rHeight = zeros(nRandInit,1);
+
+for i = 1 : nRandInit
+    rWidth(i)  = width/rInit_scale(i,1);
+    rHeight(i) = height/rInit_scale(i,2);
+end
+
+end

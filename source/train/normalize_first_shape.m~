@@ -1,0 +1,72 @@
+function [shape,img] = normalize_first_shape( Data, options )
+
+xy = Data(1).xy;
+
+minxy = min(Data(1).xy);
+maxxy = max(Data(1).xy);
+
+%% calculating bounding box %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+width   = maxxy(1) - minxy(1);
+height = maxxy(2) - minxy(2);
+
+marginW = width/2;
+marginH = height/2;
+
+cropmin = round(minxy - [marginW marginH]);
+cropmax = round(maxxy + [marginW marginH]);
+
+offset = [0 0];
+if(cropmin(1)<=0)
+    offset(1)  = -cropmin(1);
+    cropmin(1) = 1;
+end
+if(cropmin(2)<=0)
+    offset(2)  = -cropmin(2);
+    cropmin(2) = 1;
+end
+
+% img = rgb2gray(imread(Data(1).img));
+% 
+% if(cropmax(1)>=size(img, 2))
+%     cropmax(1)=size(img, 2)-1;
+% end
+
+% calculate scale factor
+W_H = cropmax - cropmin;
+wh1 = W_H(1);
+wh2 = W_H(2);
+
+CanvasSize = options.canvasSize;
+
+scf = CanvasSize(1)/wh1;
+if(scf*wh2 > CanvasSize(2))
+    scf = CanvasSize(2)/wh2;
+end
+
+% crop image
+%subImage = img(cropmin(2):cropmax(2), cropmin(1):cropmax(1));
+    
+% scale image and x,y coordinates
+%newImage = imresize(subImage, scf);
+
+newxy = xy - repmat((minxy - [marginW marginH] + offset), size(xy, 1), 1);
+newxy = newxy*scf;
+
+%[pathstr, name, ext] = fileparts( Data(1).img );
+%newimg = [options.trainingTempDataPath '/' name ext];
+%imwrite(newImage,newimg,'jpg');
+
+%clear newImage;
+%clear img;
+
+% if 0
+%     %%% Display image and feature points.
+%     figure(1);
+%     imshow(newImage);
+%     hold on;
+%     plot(newxy(:, 1), newxy(:, 2), 'g.');
+%     plot(newxy(1, 1), newxy(1, 2), 'ro');
+%     pause;
+% end
+
+end

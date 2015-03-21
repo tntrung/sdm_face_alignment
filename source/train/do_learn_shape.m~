@@ -1,0 +1,18 @@
+function do_learn_shape ( options )
+
+%% locating data folders %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+imageDataPath = options.trainingImageDataPath;
+truthDataPath = options.trainingTruthDataPath;
+
+%% loading training data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Data = load_data( imageDataPath, truthDataPath, options );
+
+%% normalizing training data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Data = nomalize_data( Data, options );
+
+%% shape model training %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ShapeModel = buildShapeModel( Data );
+
+save([options.modelPath options.slash options.datasetName ...
+    '_ShapeModel.mat','ShapeModel']);
+

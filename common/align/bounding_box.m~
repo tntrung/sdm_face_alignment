@@ -1,0 +1,16 @@
+function [] bounding_box ( shape )
+
+minshape = min(shape);
+maxshape = max(shape);
+
+%% calculating bounding box %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+width   = maxshape(1) - minshape(1);
+height  = maxshape(2) - minshape(2);
+
+marginW = width/2;
+marginH = height/2;
+
+cropmin = round(minshape - [marginW marginH]);
+cropmax = round(maxshape + [marginW marginH]);
+
+end

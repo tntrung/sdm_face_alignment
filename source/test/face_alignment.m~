@@ -1,0 +1,62 @@
+function shape = face_alignment( ShapeModel, DataVariation,...
+    LearnedCascadedModel, Data, img, shape, options )
+
+
+debug = 0;
+
+%% setup the fixed parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+nData = length(Data);
+shapeDim = size(ShapeModel.MeanShape,1);
+n_init_randoms_test = options.n_init_randoms_test;
+
+aligned_shape = zeros(n_init_randoms_test,shapeDim);
+
+%% detect the face region using face detectors or ground-truth %%%%%%%%%%%%
+%% if using ground-truth
+bbox = [];
+
+if isempty(bbox)
+    %% if using ground-truth
+    bbox = getbbox(shape);
+end
+
+%% randomize n positions for initial shapes
+[rbbox] = random_init_position( ...
+    bbox, DataVariation, n_init_randoms );
+
+%% randomize which shape is used for initial position
+rIdx = randi([1,nData],n_init_randoms);
+
+%% iterations of n initial points %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+for ir = 1 : n_init_randoms_test
+    
+    %% get random positions and inital shape indexs
+    idx    = rIdx(ir);
+    init_shape = Data(idx).shape; %% get randomly shape from others
+    cbbox  = rbbox(ir,:);
+    
+    init_shape = resetshape(cbbox, init_shape);
+    
+            [aligned_init_shape, cropIm] = align_to_mean_shape(...
+                ShapeModel, img , init_shape , options );
+    
+    if debug
+        figure(1); imshow(img); hold on;
+        draw_shape(init_shape.XY(1:2:end),...
+            init_shape.XY(2:2:end),'r');
+        hold off;
+        pause;
+    end    
+    
+    
+    %% detect landmarks using cascaded regression
+    aligned_shape(ir,:) = cascaded_regress( ShapeModel, ...
+        LearnedCascadedModel, img, init_shape.XY, options );
+    
+    
+    
+end
+
+shape = vec_2_shape(mean(aligned_shape)');
+
+end

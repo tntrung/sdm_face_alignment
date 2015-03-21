@@ -1,0 +1,45 @@
+function do_testing ( )
+
+%% loading the setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+options = setup( );
+
+%% learning other requirements %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if options.learningShape == 1
+    disp('Learning shap model...');
+    do_learn_shape( options );
+end
+
+if options.learningVariation == 1
+    disp('Learning data variation...');
+    do_learn_variation( options );
+end
+
+load( ['model/' options.datasetName '_ShapeModel.mat']    );
+load( ['model/' options.datasetName '_DataVariation.mat'] );
+load( [options.modelPath options.slash 'LearnedCascadedModel.mat'] );
+
+%% test cascaded regression  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+imgDir = options.testingImageDataPath;
+ptsDir = options.testingTruthDataPath;
+
+%% loading data
+Data = load_data( imgDir, ptsDir, options );
+nData = length(Data);
+
+for idata = 1 : nData
+    
+    disp(['Image: ' num2str(idata)]);
+    
+    img   = imread(Data(idata).img);
+    shape = Data(idata).shape;
+    
+    face_alignment( img );
+    
+end
+
+
+
+
+
+

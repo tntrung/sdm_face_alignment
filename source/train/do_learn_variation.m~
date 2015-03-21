@@ -1,0 +1,102 @@
+function do_learn_variation( options )
+
+%% loading learned shape model
+load( ['model/' options.datasetName '_ShapeModel.mat'] );
+
+imgDir = options.trainingImageDataPath;
+ptsDir = options.trainingTruthDataPath;
+
+%% loading data
+Data = load_data( imgDir, ptsDir, options );
+
+n = length(Data);
+
+transVec   = zeros(n,2);
+scaleVec   = zeros(n,2);
+
+debug = 1;
+
+%% computing the translation and scale vect
+
+for i = 1 : n
+    
+    img   = imread(Data(i).img);
+    shape = Data(i).shape; 
+    
+    %% if detect face using viola opencv
+    %boxes = detect_face( img , options );
+    
+    %% if using ground-truth
+    boxes = [];
+    
+    rect = get_correct_region( boxes, shape, 1 );
+    
+    %visualize the face region
+    if debug
+        figure(1); imshow(img); hold on;
+        rectangle('Position',  rect, 'EdgeColor', 'g');
+        hold off;
+        pause;
+    end
+    
+    %initialize mean face
+    [initX,initY,theta,width,height] = init_face_location( rect );
+    
+    initShape = makeInitialFace( ShapeModel, ...
+        initX, initY, theta,...
+        width, height );
+    
+    [AlignedInitShape, cropIm] = alignToMeanShape( ShapeModel,...
+        img , vector2XY(initShape.XY) , options );
+    
+    [AlignedTrueShape] = alignShape(AlignedInitShape.TransM,XY2vector(trueShape));
+    
+    if debug
+        figure(2); imshow(cropIm); hold on;
+        drawFaceShape(AlignedInitShape.XY(1:2:end), ...
+            AlignedInitShape.XY(2:2:end), 'y');
+        drawFaceShape(AlignedTrueShape(1:2:end), ...
+            AlignedTrueShape(2:2:end), 'r');
+        pause;
+    end
+    
+    initVector = vector2XY(AlignedInitShape.XY);
+    trueVector = vector2XY(AlignedTrueShape);
+    
+    %compute mean and covariance matrices of translation.
+    meanInitVector  = mean(initVector);
+    meanTrueVector  = mean(trueVector);
+    
+    %compute bounding box size
+    initLeftTop     = min(initVector);
+    initRightBottom = max(initVector);
+    
+    initFaceSize = abs(initLeftTop - initRightBottom);
+    
+    trueLeftTop     = min(trueVector);
+    trueRightBottom = max(trueVector);
+    
+    trueFaceSize = abs(trueLeftTop - trueRightBottom);
+    
+    transVector(i,:) = (meanInitVector - meanTrueVector)./initFaceSize;
+    scaleVector(i,:) = initFaceSize./trueFaceSize;
+    
+    clear img;
+    clear xy;
+    
+    %    end
+    
+end
+
+%compute mean and covariance matrices of scale.
+[mu_trans,cov_trans] = mean_covariance_of_data ( transVector );
+[mu_scale,cov_scale] = mean_covariance_of_data ( scaleVector );
+
+DataVariation.mu_trans  = mu_trans;
+DataVariation.cov_trans = cov_trans;
+DataVariation.mu_scale  = mu_scale;
+DataVariation.cov_scale = cov_scale;
+
+save('model/DataVariation.mat','DataVariation');
+
+end

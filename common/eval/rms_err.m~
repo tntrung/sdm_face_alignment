@@ -1,0 +1,18 @@
+function rms_err (aligned_shape, true_shape, options )
+
+pts_eval = options.pts_eval;
+n_pts    = size(pts_eval,1);
+
+X_align = aligned_shape(pts_eval,:);
+X_true  = true_shape(pts_eval,:);
+
+sum = 0;
+
+%% compute rms
+for ipts = 1 : n_pts
+    sum = sum + norm( X_align(ipts,:) - X_true(ipts,:));
+end
+
+
+
+end
