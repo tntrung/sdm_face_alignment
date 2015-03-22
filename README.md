@@ -6,4 +6,6 @@ The Matlab implementation of Supervised Descent Method (SDM) for Face Alignment.
 
 2. We provide both training and testing modules.
 
-The ogirinal paper: Xiong et al, Supervised Descent Method and its Applications to Face Alignment, CVPR 2013.
+The ogirinal paper: 
+
+Xiong et al, Supervised Descent Method and its Applications to Face Alignment, CVPR 2013.
