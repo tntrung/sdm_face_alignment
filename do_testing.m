@@ -83,7 +83,7 @@ eval_name = ['W300_LFPW_sdm' '.mat'];
 
 EVAL.rms = err;
 
-save(['result/' eval_name],'EVAL');
+%save(['result/' eval_name],'EVAL');
 
 %% displaying rms errors
 disp(['ERR average: ' num2str(mean(err))]);

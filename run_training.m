@@ -61,7 +61,7 @@ for icascade = 1 : n_cascades
     
 end
 
-save('result/Trained_RMS.mat' , 'rms');
+%save('result/Trained_RMS.mat' , 'rms');
 
 save([options.modelPath options.slash ...
     'LearnedCascadedModel.mat'],'LearnedCascadedModel');

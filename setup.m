@@ -30,19 +30,23 @@ if ~isdeployed
     addpath([cwd '/common/eval/']);
     
     %libs
-    addpath([cwd '/libs/liblinear-1.93/matlab']);
+    addpath([cwd '/lib/liblinear-1.96/matlab']);
+    addpath([cwd '/lib/vlfeat/toolbox/']);
+    addpath([cwd '/lib/vlfeat/bin/glnx86/']);
     
 end
+
+vl_setup();
 
 %%  @data preparation  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 options.datasetName = 'w300';  %% 'lfpw', 'helen' or 'w300'
 
-options.trainingImageDataPath = '/home/origami2/Bureau/Face_Tracking_App/Datasets/W300/lfpw/cross-train/images/';
-options.trainingTruthDataPath = '/home/origami2/Bureau/Face_Tracking_App/Datasets/W300/lfpw/cross-train/points/';
+options.trainingImageDataPath = './data/lfpw/trainset/';
+options.trainingTruthDataPath = './data/lfpw/trainset/';
                                    
-options.testingImageDataPath  = '/home/origami2/Bureau/Face_Tracking_App/Datasets/W300/lfpw/cross-test/images/';
-options.testingTruthDataPath  = '/home/origami2/Bureau/Face_Tracking_App/Datasets/W300/lfpw/cross-test/points/';
+options.testingImageDataPath  = './data/lfpw/testset/';
+options.testingTruthDataPath  = './data/lfpw/testset/';
 
 options.learningShape     = 0;
 options.learningVariation = 0;
@@ -65,16 +69,16 @@ options.lambda      = [1 1 1 1 1 1 1] * 0.005;
 
 %%  @feature configuration  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-options.descType  = 'xx_sift';
+options.descType  = 'hog'; % raw, hog (124 dims), xx_sift (128 dims)
 options.descSize  = [20 20 20 20 20 20 20];
 options.descScale = [0.16 0.16 0.16 0.16 0.16 0.16 0.16];
 options.descBins  =  4;
             
 %%  @cascade regression %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-options.n_cascades     = 7;         % the number of cascades
+options.n_cascades     = 5;         % the number of cascades
 
-options.n_init_randoms = 1;        % the number of initial randoms
+options.n_init_randoms = 1;         % the number of initial randoms
 
 options.n_init_randoms_test = 1;    % the number of initial randoms
 
@@ -98,8 +102,4 @@ options.inter_ocular_right_eye_idx = 43:48;
 %% LFPW dataset
 %options.inter_ocular_left_eye_idx  = [9 11 13 14 17];
 %options.inter_ocular_right_eye_idx = [10 12 15 16 18];
-
-
-
-
 
