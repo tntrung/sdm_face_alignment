@@ -17,8 +17,6 @@ CVPR 2013.
 Dependency:
    - Vlfeat library: http://www.vlfeat.org/
    - libLinear: www.csie.ntu.edu.tw/~cjlin/liblinear/
-   - mexopencv: https://github.com/kyamagu/mexopencv
-                http://kyamagu.github.io/mexopencv/
 
 Datasets in use:
 
