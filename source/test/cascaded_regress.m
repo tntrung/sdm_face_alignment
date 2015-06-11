@@ -19,7 +19,7 @@ for ic = 1 : n_cascades
     cropIm_scale = imresize(img,current_scale);
     init_shape   = init_shape * current_scale;
     
-    if 1
+    if 0
         figure(1); imshow(cropIm_scale); hold on;
         draw_shape(init_shape(:,1), init_shape(:,2),'g');
 %        draw_shape(true_shape(:,1), true_shape(:,2),'r');
@@ -50,7 +50,7 @@ for ic = 1 : n_cascades
 end
 
 
-if 0
+if 1
     figure(1); imshow(img); hold on;
     draw_shape(aligned_shape(1:2:end),...
         aligned_shape(2:2:end),'y');

@@ -41,6 +41,20 @@ elseif strcmp(featType,'xx_sift')
     
     desc = xx_sift(im,xy,'nsb',dbins,'winsize',dsize);
     
+elseif strcmp(featType,'hog')
+    
+    if size(img,3) == 3
+        im = im2double(rgb2gray(uint8(img)));
+    else
+        im = im2double(uint8(img));
+    end
+    
+    npts = size(xy,1);
+    
+    for ipts = 1 : npts
+        desc(ipts,:) = hog(im,xy(ipts,:),dsize);
+    end
+    
 end
 
 end

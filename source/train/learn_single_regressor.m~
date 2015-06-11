@@ -1,4 +1,4 @@
-function [R,storage_new_init_shape] = learn_single_regressor...
+function [R,storage_new_init_shape,rms] = learn_single_regressor...
     ( ShapeModel, DataVariation, Data, new_init_shape, options )
 
 %%%%%%%% properties %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -17,6 +17,7 @@ end
 
 %% the fixed parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 shape_dim  = size(ShapeModel.MeanShape,1);
+MeanShape2 = vec_2_shape(ShapeModel.MeanShape);
 n_points   = shape_dim/2;
 n_cascades = options.n_cascades;
 
@@ -25,7 +26,7 @@ n_init_randoms  = options.n_init_randoms;
 desc_size       = options.descSize;
 desc_bins       = options.descBins;
 desc_dim        = 8 * desc_bins * desc_bins; % xx_sift
-
+desc_dim        = 8 * desc_bins * desc_bins; % xx_sift
 
 %% initial matrices used for storing descriptors and delta shape %%%%%%%%%%
 storage_init_shape = zeros(nData*n_init_randoms,shape_dim);
@@ -118,8 +119,8 @@ for idata = 1 : nData
             init_shape = Data{idx}.shape_gt; %% get randomly shape from others
             cbbox  = rbbox(ir,:);
             
-            init_shape = resetshape(cbbox, init_shape);
-            
+            %init_shape = resetshape(cbbox, init_shape);
+            init_shape = resetshape(cbbox, MeanShape2);
  
             if 0
                 figure(1); imshow(img); hold on;
@@ -267,7 +268,7 @@ for i = 1:nsamples
     
 end
 
-rms = ;
+rms = 100*mean(err);
 
 disp(['ERR average: ' num2str(100*mean(err))]);
 

@@ -25,8 +25,12 @@ current_cascade = options.current_cascade;
 n_init_randoms  = options.n_init_randoms;
 desc_size       = options.descSize;
 desc_bins       = options.descBins;
-desc_dim        = 8 * desc_bins * desc_bins; % xx_sift
 
+if strcmp(options.descType,'xx_sift') == 1
+    desc_dim        = 8 * desc_bins * desc_bins; % xx_sift
+elseif strcmp(options.descType,'hog') == 1
+    desc_dim        = 2 * 2 * 31; % xx_sift
+end
 
 %% initial matrices used for storing descriptors and delta shape %%%%%%%%%%
 storage_init_shape = zeros(nData*n_init_randoms,shape_dim);

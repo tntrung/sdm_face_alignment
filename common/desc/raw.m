@@ -1,4 +1,4 @@
-function desc = raw( im, pos , scale, norm_size )
+function desc = raw( im, pos , lmsize, norm_size )
 
 lmsize = size(im,1) * scale;
 fsize  = sqrt(norm_size);

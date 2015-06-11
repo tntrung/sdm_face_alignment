@@ -2,7 +2,7 @@ function [data] = load_data( imgDir, ptsDir , options )
 
 slash = options.slash;
 
-plist = dir([imgDir slash 'image*.*']);
+plist = dir([imgDir slash 'image*.*g']);
 nlist = length(plist);
 %nlist = 10;
 
