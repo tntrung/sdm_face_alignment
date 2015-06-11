@@ -32,9 +32,11 @@ CVPR 2013.
    For example:
 
 	options.trainingImageDataPath = './data/lfpw/trainset/';
+
 	options.trainingTruthDataPath = './data/lfpw/trainset/';
                                    
 	options.testingImageDataPath  = './data/lfpw/testset/';
+
 	options.testingTruthDataPath  = './data/lfpw/testset/';
    
 2. Download and install dependencies: libLinear, Vlfeat, mexopencv, put
