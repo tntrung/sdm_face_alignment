@@ -28,6 +28,8 @@ How to use:
 
 1. Download 300-W data (i.e. LFPW) from above link and put into "./data" 
    folder, then correct the dataset path to your dataset foler in setup.m
+
+   >> mkdir -p data
   
    For example:
 
@@ -42,6 +44,8 @@ How to use:
    addpath(...) all folders in matlab. 
    Check and correct the library path in setup.m.
 
+   >> mkdir -p lib
+   
    libLinear: 
      - Open Matlab
      - Go to i.e. lib/liblinear-1.96/matlab/ in Matlab editor.
