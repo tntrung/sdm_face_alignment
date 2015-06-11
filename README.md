@@ -1,4 +1,4 @@
-# impSDM
+# Matlab Implementation of Supervised Descent Method
 
 A Matlab implementation of Supervised Descent Method (SDM) for Face
 Alignment.
@@ -14,15 +14,15 @@ CVPR 2013.
 
 ===========================================================================
 
-Dependency:
+# Dependency:
    - Vlfeat library: http://www.vlfeat.org/
    - libLinear: www.csie.ntu.edu.tw/~cjlin/liblinear/
 
-Datasets in use:
+# Datasets in use:
 
 [300-W] http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/
 
-How to use:
+# How to use:
 
 1. Download 300-W data (i.e. LFPW) from above link and put into "./data" 
    folder, then correct the dataset path to your dataset foler in setup.m
@@ -82,7 +82,7 @@ How to use:
    >> do_testing();
 
 
-Note that in the program, we provide the simple training models in folder:
+Note: in the program, we provide the simple training models in folder:
 "./model" that trained only on 10 images. You should re-train on the whole
 dataset. The program does not optimize the memory during training, the 
 memory program may happens if you train on too much data.
