@@ -84,7 +84,6 @@ CVPR 2013.
    >> do_testing();
 
 
-Note: in the program, we provide the simple training models in folder:
-"./model" that trained only on 10 images. You should re-train on the whole
-dataset. The program does not optimize the memory during training, the 
-memory program may happens if you train on too much data.
+Note: in the program, we provide training models of LFPW (68 landmarks) in folder:
+"./model". The program does not optimize speed and memory during training, the 
+memory problem may happens if you train on too much data.
