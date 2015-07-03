@@ -52,6 +52,7 @@ elseif strcmp(featType,'hog')
     npts = size(xy,1);
     
     for ipts = 1 : npts
+        %disp(ipts);
         desc(ipts,:) = hog(im,xy(ipts,:),dsize);
     end
     

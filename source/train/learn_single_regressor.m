@@ -45,7 +45,7 @@ current_scale = cascade_img_scale(options.scaleFactor,current_cascade,...
     n_cascades);
 
 for idata = 1 : nData
-    
+        
     %% the information of i-th image
     %disp(Data(idata).img);
     disp(['Stage: ' num2str(options.current_cascade) ' - Image: ' num2str(idata)]);
