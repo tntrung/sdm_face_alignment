@@ -50,7 +50,9 @@
    安装方法分别见：
    
    libLinear：http://m.blog.csdn.net/blog/tiandijun/40929563
+   
    Vlfeat：http://www.cnblogs.com/woshitianma/p/3872939.html
+   
    mexopencv：http://wangcaiyong.com/2015/07/14/mexopencv/
       
 3. If you run first time. You should set these following parameters
