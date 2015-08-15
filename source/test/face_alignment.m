@@ -23,7 +23,7 @@ end
 
 %% randomize n positions for initial shapes
 [rbbox] = random_init_position( ...
-    bbox, DataVariation, n_init_randoms_test );
+    bbox, DataVariation, n_init_randoms_test,options );
 
 %% randomize which shape is used for initial position
 rIdx = randi([1,nData],n_init_randoms_test);
@@ -41,7 +41,7 @@ for ir = 1 : n_init_randoms_test
     
     %% detect landmarks using cascaded regression
     aligned_shape(ir,:) = cascaded_regress( ShapeModel, ...
-        LearnedCascadedModel, img, init_shape, options );
+        LearnedCascadedModel, img, init_shape,shape, options );
     
     
     

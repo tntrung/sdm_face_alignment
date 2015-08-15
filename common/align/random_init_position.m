@@ -1,5 +1,5 @@
 function [rbbox] = random_init_position( bbox, ...
-                                                 DataVariation, nRandInit )
+                                                 DataVariation, nRandInit,options )
 
 rbbox(1,:) = bbox;    
 
@@ -31,7 +31,9 @@ end
 
 rbbox(2:nRandInit,1:2) = rCenter - [rWidth(:,1) rHeight(:,1)]/2;
 rbbox(2:nRandInit,3:4) = [rWidth(:,1) rHeight(:,1)];
-
+%补充项，防止扰动超过图片的边界
+rbbox(1:nRandInit,1:2)=max(rbbox(1:nRandInit,1:2),1);
+rbbox(1:nRandInit,1:2)=min(rbbox(1:nRandInit,1:2)+rbbox(1:nRandInit,3:4),options.canvasSize(1) )-rbbox(1:nRandInit,3:4);
 end
 
 end

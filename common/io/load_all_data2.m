@@ -11,6 +11,8 @@ DATA.
 - shape_gt: ground-truth landmark.
 - bbox_gt: bounding box of ground-truth.
 - bbox_facedet: face detection region
+-- t translation between Iw and I
+-- s scale between Iw and I
 %}
 
 slash = options.slash;
@@ -44,30 +46,13 @@ for iimgs = 1 : nimgs
         draw_shape(Data{iimgs}.shape_gt(:,1),...
             Data{iimgs}.shape_gt(:,2),'y');
         hold off;
-        pause;
+      %  pause;
     end    
     
     
-    %% get bounding box
-    Data{iimgs}.bbox_gt = getbbox(Data{iimgs}.shape_gt);
     
-    %% enlarge region of face
-    region     = enlargingbbox(Data{iimgs}.bbox_gt, 2.0);
-    region(2)  = double(max(region(2), 1));
-    region(1)  = double(max(region(1), 1));
-    
-    bottom_y   = double(min(region(2) + region(4) - 1, ...
-        Data{iimgs}.height_orig));
-    right_x    = double(min(region(1) + region(3) - 1, ...
-        Data{iimgs}.width_orig));
-    
-    img_region = img(region(2):bottom_y, region(1):right_x, :);
-    
-    %% recalculate the location of groundtruth shape and bounding box
-    Data{iimgs}.shape_gt = bsxfun(@minus, Data{iimgs}.shape_gt,...
-        double([region(1) region(2)]));
-    
-    Data{iimgs}.bbox_gt = getbbox(Data{iimgs}.shape_gt);
+    %% crop image
+    [ img_region,Data{iimgs}.shape_gt,Data{iimgs}.bbox_gt,Data{iimgs}.t] = cropImage( img,Data{iimgs}.shape_gt );
     
     Data{iimgs}.isdet = 0;
     
@@ -130,7 +115,7 @@ for iimgs = 1 : nimgs
     
     Data{iimgs}.bbox_facedet(1:2) = bsxfun(@times, Data{iimgs}.bbox_facedet(1:2), [sr sc]);
     Data{iimgs}.bbox_facedet(3:4) = bsxfun(@times, Data{iimgs}.bbox_facedet(3:4), [sr sc]);
-    
+    Data{iimgs}.s=[sr sc];
     %disp(size(Data{iimgs}.img_gray));
     
     if 0
@@ -147,13 +132,4 @@ end
 end
 
 
-function region = enlargingbbox(bbox, scale)
-
-region(1) = floor(bbox(1) - (scale - 1)/2*bbox(3));
-region(2) = floor(bbox(2) - (scale - 1)/2*bbox(4));
-
-region(3) = floor(scale*bbox(3));
-region(4) = floor(scale*bbox(4));
-
-end
 

@@ -1,5 +1,5 @@
 function run_training ( )
-
+tic;
 %% loading the setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 options = setup( );
 
@@ -66,3 +66,4 @@ end
 save([options.modelPath options.slash ...
     'LearnedCascadedModel.mat'],'LearnedCascadedModel');
 clear;
+toc;

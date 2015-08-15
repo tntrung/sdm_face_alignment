@@ -1,5 +1,6 @@
 function desc = hog( im, pos , lmsize )
 
+
 %fsize  = sqrt(norm_size);
 %lmsize  = fsize;
 %gsize = options.canvasSize(1) * options.descScale(1);
@@ -24,7 +25,8 @@ if size(cropim,1) ~= lmsize || size(cropim,2) ~= lmsize
      cropim = imresize(cropim,[lmsize lmsize]);
 end
 
-cellSize = 32 ;
+%cellSize = 32;
+cellSize=round(lmsize/2);
 %tmp = vl_hog(single(cropim), cellSize, 'verbose');
 tmp = vl_hog(single(cropim), cellSize);
 
