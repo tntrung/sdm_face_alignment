@@ -1,12 +1,11 @@
 # Matlab Implementation of Supervised Descent Method
 
-A Matlab implementation of Supervised Descent Method (SDM) for Face
+A simple Matlab implementation of Supervised Descent Method (SDM) for Face
 Alignment.
 
-We provide both training and testing modules. It is under development for 
-an improvement version: Global Supvervised Descent Method (GSDM).
+I provide both training and testing modules and one trained model of LFPW subset of 300-W dataset.
 
-The ogirinal paper: 
+You can find the ogirinal paper of my implementation:
 
 Xiong et F. De la Torre, 
 Supervised Descent Method and its Applications to Face Alignment, 
